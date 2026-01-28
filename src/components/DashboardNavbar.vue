@@ -1,6 +1,6 @@
 <script setup>
     import { ref } from 'vue';
-    import { useRouter } from 'vue-router';
+    import { RouterLink, useRouter } from 'vue-router';
     import { useAuthStore } from '@/stores/auth';
 
     const router = useRouter();
@@ -37,7 +37,7 @@
 
 <template>
     <header>
-      <h1>Área de Administração</h1>
+      <RouterLink to="/dashboard" class="header-logo">Área de Administração</RouterLink>
 
       <form @submit.prevent="handleLogout">
         <button type="submit" :disabled="loading">
@@ -61,9 +61,10 @@ header
     border-bottom: 1px solid #cccccc;
 }
 
-h1
+.header-logo
 {
     color: black;
+    font-size: 2rem;
 }
 
 button
