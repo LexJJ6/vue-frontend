@@ -47,6 +47,7 @@
 section
 {
     width: 100vw;
+    min-height: calc(100vh - 60px); /* nao devia ser hardcoded, devia ter variavel no main.css da altura do header */
     padding-top: 5rem;
     background-color: rgb(240, 240, 240);
 }
