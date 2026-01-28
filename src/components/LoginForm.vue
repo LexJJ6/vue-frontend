@@ -32,28 +32,30 @@ const handleLogin = async () => {
       <h1 class="login-title">Área de Administração</h1>
 
       <form @submit.prevent="handleLogin" class="login-form">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            v-model="email"
-            required
-            placeholder="Insira o seu email"
-            :class="{ 'input-error': error }"
-          />
-        </div>
+        <div class="form-groups">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              v-model="email"
+              required
+              placeholder="Insira o seu email"
+              :class="{ 'input-error': error }"
+            />
+          </div>
 
-        <div class="form-group">
-          <label for="password">Palavra-passe</label>
-          <input
-            type="password"
-            id="password"
-            v-model="password"
-            required
-            placeholder="Insira a sua palavra-passe"
-            :class="{ 'input-error': error }"
-          />
+          <div class="form-group">
+            <label for="password">Palavra-passe</label>
+            <input
+              type="password"
+              id="password"
+              v-model="password"
+              required
+              placeholder="Insira a sua palavra-passe"
+              :class="{ 'input-error': error }"
+            />
+          </div>
         </div>
 
         <button type="submit" :disabled="loading" class="btn-submit">
@@ -61,44 +63,63 @@ const handleLogin = async () => {
           <span v-else>Iniciar Sessão</span>
         </button>
 
-        <p class="error-message" v-if="error" aria-live="polite">{{ error }}</p>
+        <div class="error-message" v-show="true">
+          <p v-if="error">{{ error }}</p>
+        </div>
       </form>
     </div>
   </div>
 </template>
 
 <style scoped>
-/* ====== Layout ====== */
 .login-page {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #f0f0f0; /* cinza claro */
+  background: #f0f0f0;
   padding: 1rem;
 }
 
 .login-card {
-  background: #ffffff; /* branco */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  background: #ffffff;
   padding: 2.5rem 2rem;
   border-radius: 12px;
-  width: 100%;
-  max-width: 400px;
+  width: 90vw;
+  max-width: min(90%, 800px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); /* sombra suave */
   transition: transform 0.2s;
 }
 
 .login-title {
+  width: 100%;
   text-align: center;
-  margin-bottom: 2rem;
   font-size: 1.75rem;
   color: #111111; /* quase preto */
   font-weight: 600;
 }
 
-/* ====== Form ====== */
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.form-groups {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
 .form-group {
-  margin-bottom: 1.5rem;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -106,34 +127,28 @@ const handleLogin = async () => {
 label {
   margin-bottom: 0.5rem;
   font-weight: 500;
-  color: #333333; /* cinza escuro */
+  color: #333333;
 }
 
 input {
   padding: 0.75rem 1rem;
   border-radius: 6px;
-  border: 1px solid #cccccc; /* cinza médio */
+  border: 1px solid #cccccc;
   font-size: 1rem;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 input:focus {
   outline: none;
-  border-color: #555555; /* cinza escuro no foco */
-  box-shadow: 0 0 0 3px rgba(85, 85, 85, 0.2);
+  border-color: #555555;
 }
 
-.input-error {
-  border-color: #ff4d4f; /* vermelho para erro */
-}
-
-/* ====== Button ====== */
 .btn-submit {
   width: 100%;
-  padding: 0.75rem;
-  border: none;
-  border-radius: 6px;
-  background-color: #333333; /* cinza escuro */
+  padding: 0.75rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: #333333;
   color: white;
   font-weight: 600;
   font-size: 1rem;
@@ -143,15 +158,14 @@ input:focus {
 }
 
 .btn-submit:hover:not(:disabled) {
-  background-color: #111111; /* preto puro no hover */
+  background-color: #111111;
 }
 
 .btn-submit:disabled {
-  background-color: #aaaaaa; /* cinza claro quando desativado */
+  background-color: #aaaaaa;
   cursor: not-allowed;
 }
 
-/* ====== Spinner ====== */
 .spinner {
   border: 2px solid #ffffff;
   border-top: 2px solid rgba(255, 255, 255, 0.3);
@@ -168,11 +182,26 @@ input:focus {
   100% { transform: rotate(360deg); }
 }
 
-/* ====== Error ====== */
 .error-message {
-  color: #ff4d4f; /* vermelho suave */
-  margin-top: 1rem;
-  font-size: 0.9rem;
+  width: 100%;
+  background-color: rgb(248, 215, 218);
+  border: 1px solid rgb(220, 53, 69);
+  color: rgb(114, 28, 36);
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
   text-align: center;
+  min-height: 1.2em;
+  visibility: visible;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.error-message:empty {
+  visibility: hidden;
+}
+
+.error-message p {
+  width: 100%;
+  text-align: left;
 }
 </style>
