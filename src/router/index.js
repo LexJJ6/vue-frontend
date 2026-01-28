@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import LoginView from "@/views/LoginView.vue";
 import DashboardView from "@/views/DashboardView.vue";
 import DashboardHome from "@/components/DashboardHome.vue";
-import ProductPage from "@/views/ProductPage.vue";
+import AddProductForm from "@/components/AddProductForm.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,14 +23,9 @@ const router = createRouter({
                     component: DashboardHome
                 },
                 {
-                    path: 'products/:id',
-                    name: 'product-page',
-                    component: ProductPage
-                },
-                {
-                    path: 'products/:id',
-                    name: 'product-page',
-                    component: ProductPage
+                    path: 'products/add',
+                    name: 'add-product',
+                    component: AddProductForm
                 },
             ]
         },
