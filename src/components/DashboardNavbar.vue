@@ -18,7 +18,15 @@
         }
         catch (err)
         {
-            window.alert('Erro no logout');
+            if(err.status === 401)
+            {
+                auth.logout();
+                router.push('/');
+            }
+            else
+            {
+                window.alert('Erro no logout');
+            }
         }
         finally
         {
@@ -51,6 +59,11 @@ header
     align-items: center;
     padding: 2.6rem 3.6rem;
     border-bottom: 1px solid #cccccc;
+}
+
+h1
+{
+    color: black;
 }
 
 button

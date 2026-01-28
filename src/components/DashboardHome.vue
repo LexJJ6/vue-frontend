@@ -3,6 +3,7 @@
     import { useRouter } from 'vue-router';
     import axios from 'axios';
     import { useAuthStore } from '@/stores/auth';
+    import ProductCard from '@/components/ProductCard.vue';
 
     const router = useRouter();
     const auth = useAuthStore();
@@ -37,9 +38,25 @@
 <template>
     <section>
         <div class="products-grid">
-            <div v-for="product in products" :key="product.id">
-                {{ product.name }}
-            </div>
+            <ProductCard v-for="product in products" :key="product.id" :product="product" />
         </div>
     </section>
 </template>
+
+<style scoped>
+section
+{
+    width: 100vw;
+    padding-top: 5rem;
+    background-color: rgb(240, 240, 240);
+}
+.products-grid
+{
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 2%;
+}
+</style>
