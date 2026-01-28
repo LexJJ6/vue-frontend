@@ -84,7 +84,7 @@ const handleLogin = async () => {
           <span v-else>Iniciar Sessão</span>
         </button>
 
-        <div class="error-message" v-show="true">
+        <div :class="error ? `error-message` : `error-message not-visible`">
           <p v-if="error">{{ error }}</p>
         </div>
       </form>
@@ -106,13 +106,13 @@ const handleLogin = async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 1.6rem;
   background: #ffffff;
-  padding: 2.5rem 2rem;
+  padding: 2.5rem 4rem;
   border-radius: 12px;
   width: 90vw;
   max-width: min(90%, 800px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); /* sombra suave */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s;
 }
 
@@ -120,8 +120,9 @@ const handleLogin = async () => {
   width: 100%;
   text-align: center;
   font-size: 1.75rem;
-  color: #111111; /* quase preto */
+  color: #111111;
   font-weight: 600;
+  margin-top: 44px;
 }
 
 .login-form {
@@ -207,6 +208,7 @@ input:focus {
   cursor: pointer;
   position: relative;
   transition: background-color 0.2s;
+  margin-top: 0.6rem;
 }
 
 .btn-submit:hover:not(:disabled) {
@@ -236,6 +238,7 @@ input:focus {
 
 .error-message {
   width: 100%;
+  height: 44px;
   background-color: rgb(248, 215, 218);
   border: 1px solid rgb(220, 53, 69);
   color: rgb(114, 28, 36);
@@ -245,10 +248,9 @@ input:focus {
   min-height: 1.2em;
   visibility: visible;
   font-size: 1rem;
-  font-weight: 600;
 }
 
-.error-message:empty {
+.error-message.not-visible {
   visibility: hidden;
 }
 
