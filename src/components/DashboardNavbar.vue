@@ -37,14 +37,15 @@
 
 <template>
     <header>
-      <RouterLink to="/dashboard" class="header-logo">Área de Administração</RouterLink>
-
-      <form @submit.prevent="handleLogout">
-        <button type="submit" :disabled="loading">
-          <span v-if="loading">Saíndo...</span>
-          <span v-else>Terminar Sessão</span>
-        </button>
-      </form>
+        <nav>
+            <RouterLink to="/dashboard" class="header-logo">Área de Administração</RouterLink>
+            <form @submit.prevent="handleLogout">
+                <button type="submit" :disabled="loading">
+                <span v-if="loading">Saíndo...</span>
+                <span v-else>Terminar Sessão</span>
+                </button>
+            </form>
+        </nav>
     </header>
 </template>
 
@@ -52,13 +53,25 @@
 header
 {
     width: 100vw;
+    height: 80px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: white;
+    border-bottom: 1px solid #cccccc;
+    z-index: 10;
+}
+
+nav
+{
+    width: 100%;
     height: 60px;
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 2.6rem 3.6rem;
-    border-bottom: 1px solid #cccccc;
 }
 
 .header-logo

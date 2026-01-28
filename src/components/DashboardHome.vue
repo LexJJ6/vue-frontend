@@ -47,12 +47,13 @@
 section
 {
     width: 100vw;
-    min-height: calc(100vh - 60px); /* nao devia ser hardcoded, devia ter variavel no main.css da altura do header */
+    min-height: 100vh;
     padding-top: 5rem;
     background-color: rgb(240, 240, 240);
 }
 .products-grid
 {
+    padding: 4rem 0;
     width: 80%;
     margin: 0 auto;
     display: flex;
