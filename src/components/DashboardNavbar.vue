@@ -43,8 +43,7 @@
             <RouterLink to="/dashboard" class="header-logo">Área de Administração</RouterLink>
             <form @submit.prevent="handleLogout">
                 <button type="submit" :disabled="loading">
-                <span v-if="loading">Saíndo...</span>
-                <span v-else>Terminar Sessão</span>
+                <span>Terminar Sessão</span>
                 </button>
             </form>
         </nav>
