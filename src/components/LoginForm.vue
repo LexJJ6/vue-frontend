@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
-// import { Eye, EyeOff } from 'lucide-vue-next';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline';
 
 const router = useRouter();
