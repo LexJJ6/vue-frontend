@@ -1,9 +1,11 @@
 <script setup>
     import { ref } from 'vue';
     import { useRouter } from 'vue-router';
-    import axios from '@/axios';
+    // import axios from '@/axios';
+    import { useAuthStore } from '@/stores/auth';
 
     const router = useRouter();
+    const auth = useAuthStore();
 
     const loading = ref(false);
     const error = ref('');
@@ -13,8 +15,9 @@
             
         try
         {
-            await axios.post('/api/logout');
-            router.push('/login');
+            // await axios.post('/api/logout');
+            await auth.logout();
+            router.push('/');
         }
         catch (err)
         {

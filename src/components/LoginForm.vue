@@ -1,9 +1,11 @@
 <script setup>
     import { ref } from 'vue';
     import { useRouter } from 'vue-router';
-    import axios from '@/axios';
+    // import axios from '@/axios';
+    import { useAuthStore } from '@/stores/auth';
 
     const router = useRouter();
+    const auth = useAuthStore();
 
     const email = ref('');
     const password = ref('');
@@ -15,10 +17,11 @@
             
         try
         {
-            await axios.post('/api/login', {
-            email: email.value,
-            password: password.value
-            });
+            // await axios.post('/api/login', {
+            // email: email.value,
+            // password: password.value
+            // });
+            await auth.login(email.value, password.value);
             router.push('/dashboard');
         }
         catch (err)
