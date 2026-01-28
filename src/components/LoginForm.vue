@@ -2,6 +2,8 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
+// import { Eye, EyeOff } from 'lucide-vue-next';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline';
 
 const router = useRouter();
 const auth = useAuthStore();
@@ -10,6 +12,12 @@ const email = ref('');
 const password = ref('');
 const loading = ref(false);
 const error = ref('');
+
+const showPassword = ref(false);
+
+const togglePassword = () => {
+  showPassword.value = !showPassword.value;
+};
 
 const handleLogin = async () => {
   error.value = '';
@@ -47,14 +55,27 @@ const handleLogin = async () => {
 
           <div class="form-group">
             <label for="password">Palavra-passe</label>
-            <input
-              type="password"
-              id="password"
-              v-model="password"
-              required
-              placeholder="Insira a sua palavra-passe"
-              :class="{ 'input-error': error }"
-            />
+
+            <div class="password-wrapper">
+              <input
+                :type="showPassword ? 'text' : 'password'"
+                id="password"
+                v-model="password"
+                required
+                placeholder="Insira a sua palavra-passe"
+                :class="{ 'input-error': error }"
+              />
+
+              <button
+                type="button"
+                class="toggle-password"
+                @click="togglePassword"
+                aria-label="Mostrar/ocultar palavra-passe"
+              >
+                <EyeIcon v-if="!showPassword" class="icon" />
+                <EyeSlashIcon v-else class="icon" />
+              </button>
+            </div>
           </div>
         </div>
 
@@ -141,6 +162,37 @@ input {
 input:focus {
   outline: none;
   border-color: #555555;
+}
+
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 3rem;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-40%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.toggle-password:hover {
+  color: #111;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
 }
 
 .btn-submit {
