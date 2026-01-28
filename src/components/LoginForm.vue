@@ -15,7 +15,6 @@
             
         try
         {
-            await axios.get('/sanctum/csrf-cookie');
             await axios.post('/api/login', {
             email: email.value,
             password: password.value
