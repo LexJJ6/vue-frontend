@@ -1,6 +1,6 @@
 <script setup>
     import { onMounted, ref } from 'vue';
-    import { useRouter } from 'vue-router';
+    import { RouterLink, useRouter } from 'vue-router';
     import axios from 'axios';
     import { useAuthStore } from '@/stores/auth';
     import ProductCard from '@/components/ProductCard.vue';
@@ -40,6 +40,9 @@
         <div class="products-grid">
             <ProductCard v-for="product in products" :key="product.id" :product="product" />
         </div>
+        <RouterLink to="/dashboard/products/new-product" class="btn btn-primary btn-float">
+            <span class="bi bi-plus">+</span>
+        </RouterLink>
     </section>
 </template>
 
@@ -60,5 +63,33 @@ section
     flex-wrap: wrap;
     flex-direction: row;
     gap: 1.2rem;
+}
+
+.btn-float {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  background-color: #333333;
+  color: white;
+  text-decoration: none;
+}
+
+.btn-float:hover
+{
+    background-color: black;
+}
+
+.btn-float span {
+  color: white;
+  font-weight: bold;
 }
 </style>
