@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import axios from 'axios';
+import { useToast } from 'vue-toastification';
 
 const router = useRouter();
 const auth = useAuthStore();
@@ -13,6 +14,8 @@ const price = ref(0);
 const stock = ref(0);
 const loading = ref(false);
 const error = ref('');
+
+const toast = useToast();
 
 const handleSubmit = async () => {
   error.value = '';
@@ -31,10 +34,11 @@ const handleSubmit = async () => {
                     'Authorization': `Bearer ${auth.getAuthToken()}`
                 }
     });
+    toast.success('Produto criado com sucesso');
     router.push('/dashboard');
   } catch (err) {
     console.error(err);
-    error.value = err.response?.data?.message || 'Erro ao criar o produto';
+    toast.error('Ocorreu um erro ao criar o produto');
   } finally {
     loading.value = false;
   }
