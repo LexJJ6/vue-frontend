@@ -16,7 +16,7 @@
         <p>Preço: {{ formatPrice(product.price) }} €</p>
         <p>Stock: {{ product.stock }}</p>
         <div class="actions">
-            <RouterLink :to="`/dashboard/product/${product.id}`" class="btn-see-more">Ver Mais</RouterLink>
+            <RouterLink :to="`/dashboard/products/${product.id}`" class="btn-edit">Editar</RouterLink>
         </div>
     </div>
 </template>
@@ -53,7 +53,7 @@ button
     all: unset;
 }
 
-.btn-see-more, .btn-edit, .btn-delete {
+.btn-edit {
   padding: 0.4rem 0.8rem;
   border: none;
   border-radius: 6px;
@@ -63,7 +63,7 @@ button
   font-size: 1rem;
 }
 
-.btn-see-more:hover, .btn-edit:hover, .btn-delete:hover {
+.btn-edit:hover {
   background-color: black;
 }
 </style>

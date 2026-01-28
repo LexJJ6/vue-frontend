@@ -40,7 +40,7 @@
         <div class="products-grid">
             <ProductCard v-for="product in products" :key="product.id" :product="product" />
         </div>
-        <RouterLink to="/dashboard/products/new-product" class="btn btn-primary btn-float">
+        <RouterLink to="/dashboard/products/add" class="btn btn-primary btn-float">
             <span class="bi bi-plus">+</span>
         </RouterLink>
     </section>
