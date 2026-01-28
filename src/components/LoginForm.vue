@@ -1,6 +1,9 @@
 <script setup>
     import { ref } from 'vue';
+    import { useRouter } from 'vue-router';
     import axios from '@/axios';
+
+    const router = useRouter();
 
     const email = ref('');
     const password = ref('');
@@ -17,6 +20,7 @@
             email: email.value,
             password: password.value
             });
+            router.push('/dashboard');
         }
         catch (err)
         {
@@ -42,24 +46,24 @@
             id="email"
             v-model="email"
             required
-            placeholder="Insira seu email"
+            placeholder="Insira o seu email"
           />
         </div>
 
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password">Palavra-passe</label>
           <input
             type="password"
             id="password"
             v-model="password"
             required
-            placeholder="Insira sua senha"
+            placeholder="Insira a sua palavra-passe"
           />
         </div>
 
         <button type="submit" :disabled="loading">
           <span v-if="loading">Entrando...</span>
-          <span v-else>Login</span>
+          <span v-else>Iniciar Sessão</span>
         </button>
 
         <p class="error-message" v-if="error">{{ error }}</p>
@@ -69,7 +73,8 @@
 </template>
 
 <style scoped>
-.login-page {
+.login-page
+{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -77,7 +82,8 @@
   background: #f5f5f5;
 }
 
-.login-card {
+.login-card
+{
   background: white;
   padding: 2rem;
   border-radius: 8px;
@@ -86,19 +92,22 @@
   text-align: center;
 }
 
-.form-group {
+.form-group
+{
   margin-bottom: 1rem;
   text-align: left;
 }
 
-input {
+input
+{
   width: 100%;
   padding: 0.5rem;
   border-radius: 4px;
   border: 1px solid #ccc;
 }
 
-button {
+button
+{
   width: 100%;
   padding: 0.75rem;
   border: none;
@@ -109,12 +118,14 @@ button {
   cursor: pointer;
 }
 
-button:disabled {
+button:disabled
+{
   background: #8bbde0;
   cursor: not-allowed;
 }
 
-.error-message {
+.error-message
+{
   color: red;
   margin-top: 1rem;
   font-size: 0.9rem;
