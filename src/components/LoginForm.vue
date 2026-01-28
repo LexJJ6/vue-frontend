@@ -17,10 +17,6 @@
             
         try
         {
-            // await axios.post('/api/login', {
-            // email: email.value,
-            // password: password.value
-            // });
             await auth.login(email.value, password.value);
             router.push('/dashboard');
         }

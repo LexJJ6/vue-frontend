@@ -15,7 +15,6 @@
             
         try
         {
-            // await axios.post('/api/logout');
             await auth.logout();
             router.push('/');
         }
