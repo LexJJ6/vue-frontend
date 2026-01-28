@@ -47,7 +47,7 @@
         <p>Preço: {{ formatPrice(product.price) }} €</p>
         <p>Stock: {{ product.stock }}</p>
         <div class="actions">
-            <RouterLink :to="`/dashboard/products/${product.id}/edit`" class="btn-edit">Editar</RouterLink>
+            <RouterLink :to="`/dashboard/products/edit/${product.id}`" class="btn-edit">Editar</RouterLink>
             <button @click="deleteProduct(product.id)" class="btn-delete">Eliminar</button>
         </div>
     </div>

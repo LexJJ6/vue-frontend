@@ -13,7 +13,7 @@
     onMounted(async () => {
         try
         {
-            console.log("token", auth.getAuthToken());
+            // console.log("token", auth.getAuthToken());
             const response = await axios.get('http://localhost:8000/api/products', {
                 headers: {
                     'Authorization': `Bearer ${auth.getAuthToken()}`

@@ -4,9 +4,15 @@ import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import axios from 'axios';
 import { useToast } from 'vue-toastification';
+import { useRoute } from 'vue-router';
+import { onMounted } from 'vue';
 
 const router = useRouter();
+const route = useRoute();
 const auth = useAuthStore();
+
+const productId = route.params.id;
+const product = ref({});
 
 const name = ref('');
 const category = ref('');
@@ -22,7 +28,7 @@ const handleSubmit = async () => {
   loading.value = true;
 
   try {
-    await axios.post('http://localhost:8000/api/products',
+    await axios.put(`http://localhost:8000/api/products/${productId}`,
     {
     name: name.value,
     category: category.value,
@@ -34,21 +40,41 @@ const handleSubmit = async () => {
             'Authorization': `Bearer ${auth.getAuthToken()}`
         }
     });
-    toast.success('Produto criado com sucesso');
+    toast.success('Produto atualizado com sucesso');
     router.push('/dashboard');
   } catch (err) {
     console.error(err);
-    toast.error('Ocorreu um erro ao criar o produto');
+    toast.error('Ocorreu um erro ao atualizar o produto');
   } finally {
     loading.value = false;
   }
 };
+
+onMounted(async () => {
+  try {
+    const response = await axios.get(`http://localhost:8000/api/products/${productId}`, {
+      headers: {
+        'Authorization': `Bearer ${auth.getAuthToken()}`
+      }
+    });
+    product.value = response.data;
+
+    name.value = product.value.name;
+    category.value = product.value.category;
+    price.value = product.value.price;
+    stock.value = product.value.stock;
+  } catch (error) {
+    console.error(error);
+    toast.error('Ocorreu um erro ao obter os dados do produto');
+    router.push('/dashboard');
+  }
+});
 </script>
 
 <template>
   <div class="form-page">
     <div class="form-card">
-      <h1 class="form-title">Criar Produto</h1>
+      <h1 class="form-title">Editar Produto</h1>
 
       <form @submit.prevent="handleSubmit" class="login-form">
         <div class="form-groups">
@@ -98,7 +124,7 @@ const handleSubmit = async () => {
 
         <button type="submit" :disabled="loading" class="btn-submit">
           <span v-if="loading" class="spinner"></span>
-          <span v-else>Criar</span>
+          <span v-else>Atualizar</span>
         </button>
 
         <div class="error-message" :class="{ 'not-visible': !error }">
