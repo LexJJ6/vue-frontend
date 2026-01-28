@@ -58,6 +58,6 @@ section
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    gap: 2%;
+    gap: 1.2rem;
 }
 </style>
