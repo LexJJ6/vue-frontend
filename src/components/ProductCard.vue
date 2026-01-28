@@ -30,12 +30,19 @@
             });
             toast.success('Produto eliminado com sucesso');
             deleted.value = true;
-            // router.push('/dashboard');
         }
         catch (error)
         {
-            console.error(error);
-            toast.error('Ocorreu um erro ao eliminar o produto');
+            if(error.status === 401)
+            {
+                auth.logout();
+                router.push('/');
+            }
+            else
+            {
+                console.error(error);
+                toast.error('Ocorreu um erro ao eliminar o produto');
+            }
         }
     };
 </script>

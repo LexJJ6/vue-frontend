@@ -37,8 +37,16 @@ const handleSubmit = async () => {
     toast.success('Produto criado com sucesso');
     router.push('/dashboard');
   } catch (err) {
-    console.error(err);
-    toast.error('Ocorreu um erro ao criar o produto');
+    if(err.status === 401)
+    {
+        auth.logout();
+        router.push('/');
+    }
+    else
+    {
+      console.error(err);
+      toast.error('Ocorreu um erro ao criar o produto');
+    }
   } finally {
     loading.value = false;
   }
