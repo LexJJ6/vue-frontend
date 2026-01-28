@@ -30,9 +30,9 @@ const handleSubmit = async () => {
     stock: stock.value,
     },
     {
-                headers: {
-                    'Authorization': `Bearer ${auth.getAuthToken()}`
-                }
+        headers: {
+            'Authorization': `Bearer ${auth.getAuthToken()}`
+        }
     });
     toast.success('Produto criado com sucesso');
     router.push('/dashboard');

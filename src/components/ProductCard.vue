@@ -2,21 +2,53 @@
     import { defineProps } from 'vue';
     import { RouterLink } from 'vue-router';
     import { formatPrice } from '@/utils';
-
+    import axios from 'axios';
+    import { useToast } from 'vue-toastification';
+    import { useAuthStore } from '@/stores/auth';
+    import { useRouter } from 'vue-router';
+    import { ref } from 'vue';
 
     defineProps({
         product: Object
     });
+
+    const toast = useToast();
+    const auth = useAuthStore();
+    const router = useRouter();
+
+    const deleted = ref(false);
+
+    const deleteProduct = async (id) => {
+        // console.log(id)
+        try
+        {
+            await axios.delete(`http://localhost:8000/api/products/${id}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${auth.getAuthToken()}`
+                }
+            });
+            toast.success('Produto eliminado com sucesso');
+            deleted.value = true;
+            // router.push('/dashboard');
+        }
+        catch (error)
+        {
+            console.error(error);
+            toast.error('Ocorreu um erro ao eliminar o produto');
+        }
+    };
 </script>
 
 <template>
-    <div class="product-card">
+    <div class="product-card" :class="{ 'product-deleted': deleted }">
         <p class="product-name">{{ product.name }}</p>
         <p>Categoria: {{ product.category }}</p>
         <p>Preço: {{ formatPrice(product.price) }} €</p>
         <p>Stock: {{ product.stock }}</p>
         <div class="actions">
-            <RouterLink :to="`/dashboard/products/${product.id}`" class="btn-edit">Editar</RouterLink>
+            <RouterLink :to="`/dashboard/products/${product.id}/edit`" class="btn-edit">Editar</RouterLink>
+            <button @click="deleteProduct(product.id)" class="btn-delete">Eliminar</button>
         </div>
     </div>
 </template>
@@ -34,6 +66,11 @@
     background-color: white;
 }
 
+.product-deleted
+{
+    display: none;
+}
+
 .product-name
 {
     font-size: 1.2rem;
@@ -46,6 +83,7 @@
   display: flex;
   justify-content: end;
   margin-top: 0.4rem;
+  gap: 0.6rem;
 }
 
 button
@@ -53,7 +91,8 @@ button
     all: unset;
 }
 
-.btn-edit {
+.btn-edit,
+.btn-delete {
   padding: 0.4rem 0.8rem;
   border: none;
   border-radius: 6px;
@@ -64,6 +103,10 @@ button
 }
 
 .btn-edit:hover {
-  background-color: black;
+  background-color: rgb(53, 160, 69);
+}
+
+.btn-delete:hover {
+  background-color: rgb(220, 53, 69);
 }
 </style>

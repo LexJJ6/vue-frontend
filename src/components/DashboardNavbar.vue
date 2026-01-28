@@ -2,9 +2,11 @@
     import { ref } from 'vue';
     import { RouterLink, useRouter } from 'vue-router';
     import { useAuthStore } from '@/stores/auth';
+    import { useToast } from 'vue-toastification';
 
     const router = useRouter();
     const auth = useAuthStore();
+    const toast = useToast();
 
     const loading = ref(false);
 
@@ -25,7 +27,7 @@
             }
             else
             {
-                window.alert('Erro no logout');
+                toast.error('Erro no logout');
             }
         }
         finally
