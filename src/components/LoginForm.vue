@@ -84,7 +84,7 @@ const handleLogin = async () => {
           <span v-else>Iniciar Sessão</span>
         </button>
 
-        <div :class="error ? `error-message` : `error-message not-visible`">
+        <div class="error-message" :class="{ 'not-visible': !error }">
           <p v-if="error">{{ error }}</p>
         </div>
       </form>
@@ -108,7 +108,7 @@ const handleLogin = async () => {
   align-items: center;
   gap: 1.6rem;
   background: #ffffff;
-  padding: 2.5rem 4rem;
+  padding: 2.5rem 2rem;
   border-radius: 12px;
   width: 90vw;
   max-width: min(90%, 800px);
@@ -122,7 +122,7 @@ const handleLogin = async () => {
   font-size: 1.75rem;
   color: #111111;
   font-weight: 600;
-  margin-top: 44px;
+  margin-top: 12px;
 }
 
 .login-form {
