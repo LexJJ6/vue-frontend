@@ -14,9 +14,7 @@ export const useAuthStore = defineStore('auth', {
     async login(email, password)
     {
       // const res = await axios.post('http://localhost:8000/api/login', { email, password });
-      await axios.get('http://localhost:8000/sanctum/csrf-cookie'); // para settar a cookie, nao é endpoint api
-      // const res = await api.post('/login', { email, password });
-      const res = await axios.post('http://localhost:8000/login', { email, password });
+      const res = await api.post('/login', { email, password });
       console.log("dados do login", res.data);
       // this.token = res.data.token;
       // this.user = res.data.user;
@@ -48,3 +46,5 @@ export const useAuthStore = defineStore('auth', {
     }
   },
 })
+
+// login e logout funcionam assim perfeitamente

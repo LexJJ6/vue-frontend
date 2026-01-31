@@ -5,6 +5,7 @@
   import { useAuthStore } from '@/stores/auth';
   import { useToast } from 'vue-toastification';
   import ProductCard from '@/components/ProductCard.vue';
+  import { api } from '@/axios';
 
   const router = useRouter();
   const auth = useAuthStore();
@@ -15,11 +16,12 @@
   onMounted(async () => {
     try
     {
-      const response = await axios.get('http://localhost:8000/api/products', {
-        headers: {
-          'Authorization': `Bearer ${auth.getAuthToken()}`
-        }
-      });
+      // const response = await axios.get('http://localhost:8000/api/products', {
+      //   headers: {
+      //     'Authorization': `Bearer ${auth.getAuthToken()}`
+      //   }
+      // });
+      const response = await api.get('http://localhost:8000/api/products');
       products.value = response.data;
     }
     catch (err)
