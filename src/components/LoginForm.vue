@@ -1,7 +1,7 @@
 <script setup>
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
-  import axios from 'axios';
+  import { web } from '@/axios';
   import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline';
 
   const router = useRouter();
@@ -23,8 +23,8 @@
 
     try
     {
-      await axios.get('http://localhost:8000/sanctum/csrf-cookie');
-      await axios.post('http://localhost:8000/login', {
+      await web.get('/sanctum/csrf-cookie');
+      await web.post('/login', {
         email: email.value,
         password: password.value,
       });

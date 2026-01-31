@@ -1,12 +1,18 @@
 import axios from "axios";
 
-axios.defaults.withCredentials = true;
-axios.defaults.withXSRFToken = true;
+const web = axios.create({
+  withCredentials: true,
+  withXSRFToken: true,
+  baseURL: 'http://localhost:8000/'
+});
 
 const api = axios.create({
   withCredentials: true,
   withXSRFToken: true,
-  baseURL: 'http://localhost:8000/api'
+  baseURL: 'http://localhost:8000/api/'
 });
 
-export { api };
+export {
+  web,
+  api,
+};

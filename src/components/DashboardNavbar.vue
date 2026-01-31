@@ -1,7 +1,7 @@
 <script setup>
   import { ref } from 'vue';
   import { RouterLink, useRouter } from 'vue-router';
-  import axios from 'axios';
+  import { web } from '@/axios';
   import { useToast } from 'vue-toastification';
 
   const router = useRouter();
@@ -14,7 +14,7 @@
             
     try
     {
-      await axios.post('http://localhost:8000/logout');
+      await web.post('/logout');
       router.push('/');
     }
     catch (err)
