@@ -3,10 +3,12 @@
   import { RouterLink, useRouter } from 'vue-router';
   import axios from 'axios';
   import { useAuthStore } from '@/stores/auth';
+  import { useToast } from 'vue-toastification';
   import ProductCard from '@/components/ProductCard.vue';
 
   const router = useRouter();
   const auth = useAuthStore();
+  const toast = useToast();
 
   const products = ref([]);
 
