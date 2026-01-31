@@ -4,6 +4,7 @@
   import axios from 'axios';
   import { useAuthStore } from '@/stores/auth';
   import { useToast } from 'vue-toastification';
+  import { api } from '@/axios';
 
   const router = useRouter();
   const auth = useAuthStore();
@@ -22,7 +23,8 @@
 
     try
     {
-      await axios.post('http://localhost:8000/api/products',
+      // await axios.post('http://localhost:8000/api/products',
+      await api.post('http://localhost:8000/api/products',
       {
         name: name.value,
         category: category.value,

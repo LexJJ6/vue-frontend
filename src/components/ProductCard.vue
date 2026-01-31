@@ -5,6 +5,7 @@
   import axios from 'axios';
   import { useAuthStore } from '@/stores/auth';
   import { useToast } from 'vue-toastification';
+  import { api } from '@/axios';
 
   defineProps({
     product: Object
@@ -19,12 +20,13 @@
   const deleteProduct = async (id) => {
     try
     {
-      await axios.delete(`http://localhost:8000/api/products/${id}`,
-      {
-        headers: {
-          'Authorization': `Bearer ${auth.getAuthToken()}`
-        }
-      });
+      await api.delete(`http://localhost:8000/api/products/${id}`);
+      // await axios.delete(`http://localhost:8000/api/products/${id}`,
+      // {
+      //   headers: {
+      //     'Authorization': `Bearer ${auth.getAuthToken()}`
+      //   }
+      // });
       toast.success('Produto eliminado com sucesso');
       deleted.value = true;
     }

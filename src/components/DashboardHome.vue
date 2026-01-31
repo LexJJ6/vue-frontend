@@ -16,11 +16,6 @@
   onMounted(async () => {
     try
     {
-      // const response = await axios.get('http://localhost:8000/api/products', {
-      //   headers: {
-      //     'Authorization': `Bearer ${auth.getAuthToken()}`
-      //   }
-      // });
       const response = await api.get('http://localhost:8000/api/products');
       products.value = response.data;
     }
