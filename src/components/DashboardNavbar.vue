@@ -1,11 +1,12 @@
 <script setup>
   import { ref } from 'vue';
   import { RouterLink, useRouter } from 'vue-router';
-  import { useAuthStore } from '@/stores/auth';
+  // import { useAuthStore } from '@/stores/auth';
+  import axios from 'axios';
   import { useToast } from 'vue-toastification';
 
   const router = useRouter();
-  const auth = useAuthStore();
+  // const auth = useAuthStore();
   const toast = useToast();
 
   const loading = ref(false);
@@ -15,7 +16,8 @@
             
     try
     {
-      await auth.logout();
+      // await auth.logout();
+      await axios.post('http://localhost:8000/logout');
       router.push('/');
     }
     catch (err)
