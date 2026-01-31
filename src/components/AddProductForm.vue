@@ -20,7 +20,7 @@
 
     try
     {
-      await api.post('http://localhost:8000/api/products',
+      await api.post('/products',
       {
         name: name.value,
         category: category.value,

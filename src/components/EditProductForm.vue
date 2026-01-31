@@ -24,7 +24,7 @@
 
     try
     {
-      await api.put(`http://localhost:8000/api/products/${productId}`,
+      await api.put(`/products/${productId}`,
       {
         name: name.value,
         category: category.value,

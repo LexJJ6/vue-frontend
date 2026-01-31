@@ -17,7 +17,7 @@
   const deleteProduct = async (id) => {
     try
     {
-      await api.delete(`http://localhost:8000/api/products/${id}`);
+      await api.delete(`/products/${id}`);
       toast.success('Produto eliminado com sucesso');
       deleted.value = true;
     }
