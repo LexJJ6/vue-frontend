@@ -1,38 +1,39 @@
 <script setup>
-    import { onMounted, ref } from 'vue';
-    import { RouterLink, useRouter } from 'vue-router';
-    import axios from 'axios';
-    import { useAuthStore } from '@/stores/auth';
-    import ProductCard from '@/components/ProductCard.vue';
+  import { onMounted, ref } from 'vue';
+  import { RouterLink, useRouter } from 'vue-router';
+  import axios from 'axios';
+  import { useAuthStore } from '@/stores/auth';
+  import ProductCard from '@/components/ProductCard.vue';
 
-    const router = useRouter();
-    const auth = useAuthStore();
+  const router = useRouter();
+  const auth = useAuthStore();
 
-    const products = ref([]);
+  const products = ref([]);
 
-    onMounted(async () => {
-        try
-        {
-            // console.log("token", auth.getAuthToken());
-            const response = await axios.get('http://localhost:8000/api/products', {
-                headers: {
-                    'Authorization': `Bearer ${auth.getAuthToken()}`
-                }
-            });
-            products.value = response.data;
+  onMounted(async () => {
+    try
+    {
+      const response = await axios.get('http://localhost:8000/api/products', {
+        headers: {
+          'Authorization': `Bearer ${auth.getAuthToken()}`
         }
-        catch (error)
-        {
-            if(error.status === 401)
-            {
-                router.push('/');
-            }
-            else
-            {
-                console.error('Ocorreu um erro a obter os produtos', error);
-            }
-        }
-    });
+      });
+      products.value = response.data;
+    }
+    catch (err)
+    {
+      if(err.status === 401)
+      {
+        toast.error('A sua sessão expirou');
+        router.push('/');
+      }
+      else
+      {
+        toast.error('Ocorreu um erro ao obter os produtos');
+        console.error('Ocorreu um erro ao obter os produtos', err);
+      }
+    }
+  });
 </script>
 
 <template>

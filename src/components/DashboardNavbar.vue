@@ -1,40 +1,41 @@
 <script setup>
-    import { ref } from 'vue';
-    import { RouterLink, useRouter } from 'vue-router';
-    import { useAuthStore } from '@/stores/auth';
-    import { useToast } from 'vue-toastification';
+  import { ref } from 'vue';
+  import { RouterLink, useRouter } from 'vue-router';
+  import { useAuthStore } from '@/stores/auth';
+  import { useToast } from 'vue-toastification';
 
-    const router = useRouter();
-    const auth = useAuthStore();
-    const toast = useToast();
+  const router = useRouter();
+  const auth = useAuthStore();
+  const toast = useToast();
 
-    const loading = ref(false);
+  const loading = ref(false);
 
-    const handleLogout = async () => {
-        loading.value = true;
+  const handleLogout = async () => {
+    loading.value = true;
             
-        try
-        {
-            await auth.logout();
-            router.push('/');
-        }
-        catch (err)
-        {
-            if(err.status === 401)
-            {
-                auth.logout();
-                router.push('/');
-            }
-            else
-            {
-                toast.error('Erro no logout');
-            }
-        }
-        finally
-        {
-            loading.value = false;
-        }
+    try
+    {
+      await auth.logout();
+      router.push('/');
     }
+    catch (err)
+    {
+      if(err.status === 401)
+      {
+        // auth.logout(); // isto falha de qualquer modo
+        toast.error('A sua sessão expirou');
+        router.push('/');
+      }
+      else
+      {
+        toast.error('Ocorreu um erro ao terminar a sessão');
+      }
+    }
+    finally
+    {
+      loading.value = false;
+    }
+  }
 </script>
 
 <template>

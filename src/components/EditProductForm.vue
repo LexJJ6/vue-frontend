@@ -1,82 +1,94 @@
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useAuthStore } from '@/stores/auth';
-import axios from 'axios';
-import { useToast } from 'vue-toastification';
-import { useRoute } from 'vue-router';
-import { onMounted } from 'vue';
+  import { ref, onMounted } from 'vue';
+  import { useRouter, useRoute } from 'vue-router';
+  import axios from 'axios';
+  import { useAuthStore } from '@/stores/auth';
+  import { useToast } from 'vue-toastification';
 
-const router = useRouter();
-const route = useRoute();
-const auth = useAuthStore();
+  const router = useRouter();
+  const route = useRoute();
+  const auth = useAuthStore();
+  const toast = useToast();
 
-const productId = route.params.id;
-const product = ref({});
+  const productId = route.params.id;
+  const product = ref({});
 
-const name = ref('');
-const category = ref('');
-const price = ref(0);
-const stock = ref(0);
-const loading = ref(false);
-const error = ref('');
+  const name = ref('');
+  const category = ref('');
+  const price = ref(0);
+  const stock = ref(0);
+  const loading = ref(false);
+  const error = ref('');
 
-const toast = useToast();
+  const handleSubmit = async () => {
+    error.value = '';
+    loading.value = true;
 
-const handleSubmit = async () => {
-  error.value = '';
-  loading.value = true;
-
-  try {
-    await axios.put(`http://localhost:8000/api/products/${productId}`,
+    try
     {
-    name: name.value,
-    category: category.value,
-    price: price.value,
-    stock: stock.value,
-    },
-    {
+      await axios.put(`http://localhost:8000/api/products/${productId}`,
+      {
+        name: name.value,
+        category: category.value,
+        price: price.value,
+        stock: stock.value,
+      },
+      {
         headers: {
-            'Authorization': `Bearer ${auth.getAuthToken()}`
+          'Authorization': `Bearer ${auth.getAuthToken()}`
         }
-    });
-    toast.success('Produto atualizado com sucesso');
-    router.push('/dashboard');
-  } catch (err) {
-    if(err.status === 401)
+      });
+      toast.success('Produto atualizado com sucesso');
+      router.push('/dashboard');
+    }
+    catch (err)
     {
-        auth.logout();
+      if(err.status === 401)
+      {
+        toast.error('A sua sessão expirou');
         router.push('/');
-    }
-    else
-    {
-      console.error(err);
-      toast.error('Ocorreu um erro ao atualizar o produto');
-    }
-  } finally {
-    loading.value = false;
-  }
-};
-
-onMounted(async () => {
-  try {
-    const response = await axios.get(`http://localhost:8000/api/products/${productId}`, {
-      headers: {
-        'Authorization': `Bearer ${auth.getAuthToken()}`
       }
-    });
-    product.value = response.data;
+      else
+      {
+        toast.error('Ocorreu um erro ao atualizar o produto');
+        console.error('Ocorreu um erro ao atualizar o produto', err);
+      }
+    }
+    finally
+    {
+      loading.value = false;
+    }
+  };
 
-    name.value = product.value.name;
-    category.value = product.value.category;
-    price.value = product.value.price;
-    stock.value = product.value.stock;
-  } catch (error) {
-    console.error(error);
-    toast.error('Ocorreu um erro ao obter os dados do produto');
-    router.push('/dashboard');
-  }
-});
+  onMounted(async () => {
+    try
+    {
+      const response = await axios.get(`http://localhost:8000/api/products/${productId}`, {
+        headers: {
+          'Authorization': `Bearer ${auth.getAuthToken()}`
+        }
+      });
+      product.value = response.data;
+
+      name.value = product.value.name;
+      category.value = product.value.category;
+      price.value = product.value.price;
+      stock.value = product.value.stock;
+    }
+    catch (err)
+    {
+      if(err.status === 401)
+      {
+        toast.error('A sua sessão expirou');
+        router.push('/');
+      }
+      else
+      {
+        toast.error('Ocorreu um erro ao obter os dados do produto');
+        console.error('Ocorreu um erro ao obter os dados do produto', err);
+      }
+    }
+  });
 </script>
 
 <template>

@@ -1,50 +1,47 @@
 <script setup>
-    import { defineProps } from 'vue';
-    import { RouterLink } from 'vue-router';
-    import { formatPrice } from '@/utils';
-    import axios from 'axios';
-    import { useToast } from 'vue-toastification';
-    import { useAuthStore } from '@/stores/auth';
-    import { useRouter } from 'vue-router';
-    import { ref } from 'vue';
+  import { ref, defineProps } from 'vue';
+  import { RouterLink, useRouter } from 'vue-router';
+  import { formatPrice } from '@/utils';
+  import axios from 'axios';
+  import { useAuthStore } from '@/stores/auth';
+  import { useToast } from 'vue-toastification';
 
-    defineProps({
-        product: Object
-    });
+  defineProps({
+    product: Object
+  });
 
-    const toast = useToast();
-    const auth = useAuthStore();
-    const router = useRouter();
+  const router = useRouter();
+  const auth = useAuthStore();
+  const toast = useToast();
 
-    const deleted = ref(false);
+  const deleted = ref(false);
 
-    const deleteProduct = async (id) => {
-        // console.log(id)
-        try
-        {
-            await axios.delete(`http://localhost:8000/api/products/${id}`,
-            {
-                headers: {
-                    'Authorization': `Bearer ${auth.getAuthToken()}`
-                }
-            });
-            toast.success('Produto eliminado com sucesso');
-            deleted.value = true;
+  const deleteProduct = async (id) => {
+    try
+    {
+      await axios.delete(`http://localhost:8000/api/products/${id}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${auth.getAuthToken()}`
         }
-        catch (error)
-        {
-            if(error.status === 401)
-            {
-                auth.logout();
-                router.push('/');
-            }
-            else
-            {
-                console.error(error);
-                toast.error('Ocorreu um erro ao eliminar o produto');
-            }
-        }
-    };
+      });
+      toast.success('Produto eliminado com sucesso');
+      deleted.value = true;
+    }
+    catch (err)
+    {
+      if(err.status === 401)
+      {
+        toast.error('A sua sessão expirou');
+        router.push('/');
+      }
+      else
+      {
+        toast.error('Ocorreu um erro ao eliminar o produto');
+        console.error('Ocorreu um erro ao eliminar o produto', err);
+      }
+    }
+  };
 </script>
 
 <template>

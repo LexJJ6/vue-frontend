@@ -1,56 +1,60 @@
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useAuthStore } from '@/stores/auth';
-import axios from 'axios';
-import { useToast } from 'vue-toastification';
+  import { ref } from 'vue';
+  import { useRouter } from 'vue-router';
+  import axios from 'axios';
+  import { useAuthStore } from '@/stores/auth';
+  import { useToast } from 'vue-toastification';
 
-const router = useRouter();
-const auth = useAuthStore();
+  const router = useRouter();
+  const auth = useAuthStore();
+  const toast = useToast();
 
-const name = ref('');
-const category = ref('');
-const price = ref(0);
-const stock = ref(0);
-const loading = ref(false);
-const error = ref('');
+  const name = ref('');
+  const category = ref('');
+  const price = ref(0);
+  const stock = ref(0);
+  const loading = ref(false);
+  const error = ref('');
 
-const toast = useToast();
+  const handleSubmit = async () => {
+    error.value = '';
+    loading.value = true;
 
-const handleSubmit = async () => {
-  error.value = '';
-  loading.value = true;
-
-  try {
-    await axios.post('http://localhost:8000/api/products',
+    try
     {
-    name: name.value,
-    category: category.value,
-    price: price.value,
-    stock: stock.value,
-    },
-    {
+      await axios.post('http://localhost:8000/api/products',
+      {
+        name: name.value,
+        category: category.value,
+        price: price.value,
+        stock: stock.value,
+      },
+      {
         headers: {
-            'Authorization': `Bearer ${auth.getAuthToken()}`
+          'Authorization': `Bearer ${auth.getAuthToken()}`
         }
-    });
-    toast.success('Produto criado com sucesso');
-    router.push('/dashboard');
-  } catch (err) {
-    if(err.status === 401)
-    {
-        auth.logout();
-        router.push('/');
+      });
+      toast.success('Produto criado com sucesso');
+      router.push('/dashboard');
     }
-    else
+    catch (err)
     {
-      console.error(err);
-      toast.error('Ocorreu um erro ao criar o produto');
+      if(err.status === 401)
+      {
+          toast.error('A sua sessão expirou');
+          router.push('/');
+      }
+      else
+      {
+        toast.error('Ocorreu um erro ao criar o produto');
+        console.error('Ocorreu um erro ao criar o produto', err);
+      }
     }
-  } finally {
-    loading.value = false;
-  }
-};
+    finally
+    {
+      loading.value = false;
+    }
+  };
 </script>
 
 <template>

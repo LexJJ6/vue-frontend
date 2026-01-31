@@ -1,36 +1,41 @@
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useAuthStore } from '@/stores/auth';
-import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline';
+  import { ref } from 'vue';
+  import { useRouter } from 'vue-router';
+  import { useAuthStore } from '@/stores/auth';
+  import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline';
 
-const router = useRouter();
-const auth = useAuthStore();
+  const router = useRouter();
+  const auth = useAuthStore();
 
-const email = ref('');
-const password = ref('');
-const loading = ref(false);
-const error = ref('');
+  const email = ref('');
+  const password = ref('');
+  const loading = ref(false);
+  const error = ref('');
 
-const showPassword = ref(false);
+  const showPassword = ref(false);
 
-const togglePassword = () => {
-  showPassword.value = !showPassword.value;
-};
+  const togglePassword = () => {
+    showPassword.value = !showPassword.value;
+  };
 
-const handleLogin = async () => {
-  error.value = '';
-  loading.value = true;
+  const handleLogin = async () => {
+    error.value = '';
+    loading.value = true;
 
-  try {
-    await auth.login(email.value, password.value);
-    router.push('/dashboard');
-  } catch (err) {
-    error.value = err.response?.data?.message || 'Erro no login';
-  } finally {
-    loading.value = false;
-  }
-};
+    try
+    {
+      await auth.login(email.value, password.value);
+      router.push('/dashboard');
+    }
+    catch (err)
+    {
+      error.value = err.response?.data?.message || 'Ocorreu um erro ao iniciar a sessão';
+    }
+    finally
+    {
+      loading.value = false;
+    }
+  };
 </script>
 
 <template>
