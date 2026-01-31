@@ -1,13 +1,10 @@
 <script setup>
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
-  import axios from 'axios';
-  import { useAuthStore } from '@/stores/auth';
   import { useToast } from 'vue-toastification';
   import { api } from '@/axios';
 
   const router = useRouter();
-  const auth = useAuthStore();
   const toast = useToast();
 
   const name = ref('');
@@ -23,18 +20,12 @@
 
     try
     {
-      // await axios.post('http://localhost:8000/api/products',
       await api.post('http://localhost:8000/api/products',
       {
         name: name.value,
         category: category.value,
         price: price.value,
         stock: stock.value,
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${auth.getAuthToken()}`
-        }
       });
       toast.success('Produto criado com sucesso');
       router.push('/dashboard');

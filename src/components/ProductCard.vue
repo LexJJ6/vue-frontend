@@ -2,8 +2,6 @@
   import { ref, defineProps } from 'vue';
   import { RouterLink, useRouter } from 'vue-router';
   import { formatPrice } from '@/utils';
-  import axios from 'axios';
-  import { useAuthStore } from '@/stores/auth';
   import { useToast } from 'vue-toastification';
   import { api } from '@/axios';
 
@@ -12,7 +10,6 @@
   });
 
   const router = useRouter();
-  const auth = useAuthStore();
   const toast = useToast();
 
   const deleted = ref(false);
@@ -21,12 +18,6 @@
     try
     {
       await api.delete(`http://localhost:8000/api/products/${id}`);
-      // await axios.delete(`http://localhost:8000/api/products/${id}`,
-      // {
-      //   headers: {
-      //     'Authorization': `Bearer ${auth.getAuthToken()}`
-      //   }
-      // });
       toast.success('Produto eliminado com sucesso');
       deleted.value = true;
     }

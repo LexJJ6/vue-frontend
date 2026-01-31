@@ -1,12 +1,10 @@
 <script setup>
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
-  // import { useAuthStore } from '@/stores/auth';
   import axios from 'axios';
   import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline';
 
   const router = useRouter();
-  // const auth = useAuthStore();
 
   const email = ref('');
   const password = ref('');
@@ -25,7 +23,6 @@
 
     try
     {
-      // await auth.login(email.value, password.value);
       await axios.get('http://localhost:8000/sanctum/csrf-cookie');
       await axios.post('http://localhost:8000/login', {
         email: email.value,

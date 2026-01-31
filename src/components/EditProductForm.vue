@@ -1,14 +1,11 @@
 <script setup>
   import { ref, onMounted } from 'vue';
   import { useRouter, useRoute } from 'vue-router';
-  import axios from 'axios';
-  import { useAuthStore } from '@/stores/auth';
   import { useToast } from 'vue-toastification';
   import { api } from '@/axios';
 
   const router = useRouter();
   const route = useRoute();
-  const auth = useAuthStore();
   const toast = useToast();
 
   const productId = route.params.id;
@@ -27,18 +24,12 @@
 
     try
     {
-      // await axios.put(`http://localhost:8000/api/products/${productId}`,
       await api.put(`http://localhost:8000/api/products/${productId}`,
       {
         name: name.value,
         category: category.value,
         price: price.value,
         stock: stock.value,
-      },
-      {
-        headers: {
-          'Authorization': `Bearer ${auth.getAuthToken()}`
-        }
       });
       toast.success('Produto atualizado com sucesso');
       router.push('/dashboard');
@@ -66,11 +57,6 @@
     try
     {
       const response = await api.get(`http://localhost:8000/api/products/${productId}`);
-      // const response = await axios.get(`http://localhost:8000/api/products/${productId}`, {
-      //   headers: {
-      //     'Authorization': `Bearer ${auth.getAuthToken()}`
-      //   }
-      // });
       product.value = response.data;
 
       name.value = product.value.name;
