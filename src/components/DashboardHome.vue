@@ -13,7 +13,7 @@
   onMounted(async () => {
     try
     {
-      const response = await api.get('http://localhost:8000/api/products');
+      const response = await api.get('/products');
       products.value = response.data;
     }
     catch (err)
