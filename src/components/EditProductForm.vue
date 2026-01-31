@@ -56,7 +56,7 @@
   onMounted(async () => {
     try
     {
-      const response = await api.get(`http://localhost:8000/api/products/${productId}`);
+      const response = await api.get(`/products/${productId}`);
       product.value = response.data;
 
       name.value = product.value.name;
