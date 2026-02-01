@@ -262,7 +262,7 @@ section
   align-items: center;
   font-size: 2rem;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  z-index: 20;
   background-color: #333333;
   color: white;
   text-decoration: none;

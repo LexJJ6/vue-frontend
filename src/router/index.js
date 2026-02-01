@@ -4,6 +4,7 @@ import DashboardView from "@/views/DashboardView.vue";
 import DashboardHome from "@/components/DashboardHome.vue";
 import AddProductForm from "@/components/AddProductForm.vue";
 import EditProductForm from "@/components/EditProductForm.vue";
+import AddOrderForm from "@/components/AddOrderForm.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,11 @@ const router = createRouter({
                     path: 'products/edit/:id',
                     name: 'edit-product',
                     component: EditProductForm
+                },
+                {
+                    path: 'orders/add',
+                    name: 'add-order',
+                    component: AddOrderForm
                 },
             ]
         },

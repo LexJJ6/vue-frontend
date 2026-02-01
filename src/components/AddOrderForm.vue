@@ -1,38 +1,47 @@
 <script setup>
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
-  import { web } from '@/axios';
-  import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/24/outline';
+  import { useToast } from 'vue-toastification';
+  import { api } from '@/axios';
 
   const router = useRouter();
+  const toast = useToast();
 
-  const email = ref('');
-  const password = ref('');
+  const name = ref('');
+  const category = ref('');
+  const price = ref(0);
+  const stock = ref(0);
   const loading = ref(false);
   const error = ref('');
 
-  const showPassword = ref(false);
-
-  const togglePassword = () => {
-    showPassword.value = !showPassword.value;
-  };
-
-  const handleLogin = async () => {
+  const handleSubmit = async () => {
     error.value = '';
     loading.value = true;
 
     try
     {
-      await web.get('/sanctum/csrf-cookie');
-      await web.post('/login', {
-        email: email.value,
-        password: password.value,
+      await api.post('/products',
+      {
+        name: name.value,
+        category: category.value,
+        price: price.value,
+        stock: stock.value,
       });
+      toast.success('Produto criado com sucesso');
       router.push('/dashboard');
     }
     catch (err)
     {
-      error.value = err.response?.data?.message || 'Ocorreu um erro ao iniciar a sessão';
+      if(err.status === 401)
+      {
+          toast.error('A sua sessão expirou');
+          router.push('/');
+      }
+      else
+      {
+        toast.error('Ocorreu um erro ao criar o produto');
+        console.error('Ocorreu um erro ao criar o produto', err);
+      }
     }
     finally
     {
@@ -42,51 +51,59 @@
 </script>
 
 <template>
-  <div class="login-page">
-    <div class="login-card">
-      <h1 class="login-title">Área de Administração</h1>
+  <div class="form-page">
+    <div class="form-card">
+      <h1 class="form-title">Simular Compra</h1>
 
-      <form @submit.prevent="handleLogin" class="login-form">
+      <form @submit.prevent="handleSubmit" class="login-form">
         <div class="form-groups">
           <div class="form-group">
-            <label for="email">Email</label>
+            <label for="name">Nome</label>
             <input
-              type="email"
-              id="email"
-              v-model="email"
+              type="text"
+              id="name"
+              v-model="name"
               required
-              placeholder="Insira o seu email"
+              placeholder="Insira o nome do produto"
             />
           </div>
-
           <div class="form-group">
-            <label for="password">Palavra-passe</label>
-
-            <div class="password-wrapper">
-              <input
-                :type="showPassword ? 'text' : 'password'"
-                id="password"
-                v-model="password"
-                required
-                placeholder="Insira a sua palavra-passe"
-              />
-
-              <button
-                type="button"
-                class="toggle-password"
-                @click="togglePassword"
-                aria-label="Mostrar/ocultar palavra-passe"
-              >
-                <EyeIcon v-if="!showPassword" class="icon" />
-                <EyeSlashIcon v-else class="icon" />
-              </button>
-            </div>
+            <label for="category">Categoria</label>
+            <input
+              type="text"
+              id="category"
+              v-model="category"
+              required
+              placeholder="Insira a categoria do produto"
+            />
+          </div>
+          <div class="form-group">
+            <label for="price">Preço (em cêntimos)</label>
+            <input
+              type="number"
+              id="price"
+              v-model="price"
+              required
+              placeholder="Insira o preço do produto"
+              min="0"
+            />
+          </div>
+          <div class="form-group">
+            <label for="stock">Stock</label>
+            <input
+              type="number"
+              id="stock"
+              v-model="stock"
+              required
+              placeholder="Insira a quantidade em estoque"
+              min="0"
+            />
           </div>
         </div>
 
         <button type="submit" :disabled="loading" class="btn-submit">
           <span v-if="loading" class="spinner"></span>
-          <span v-else>Iniciar Sessão</span>
+          <span v-else>Criar</span>
         </button>
 
         <div class="error-message" :class="{ 'not-visible': !error }">
@@ -98,7 +115,15 @@
 </template>
 
 <style scoped>
-.login-page {
+section
+{
+    width: 100vw;
+    min-height: 100vh;
+    padding-top: 5rem;
+    background-color: rgb(240, 240, 240);
+}
+
+.form-page {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -107,7 +132,7 @@
   padding: 1rem;
 }
 
-.login-card {
+.form-card {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -121,7 +146,7 @@
   transition: transform 0.2s;
 }
 
-.login-title {
+.form-title {
   width: 100%;
   text-align: center;
   font-size: 1.75rem;
@@ -170,33 +195,6 @@ input:focus {
   border-color: #555555;
 }
 
-.password-wrapper {
-  position: relative;
-  width: 100%;
-}
-
-.password-wrapper input {
-  width: 100%;
-  padding-right: 3rem;
-}
-
-.toggle-password {
-  position: absolute;
-  right: 0.75rem;
-  top: 50%;
-  transform: translateY(-40%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.1rem;
-  color: #555;
-}
-
-.icon {
-  width: 20px;
-  height: 20px;
-}
-
 .btn-submit {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -210,6 +208,10 @@ input:focus {
   position: relative;
   transition: background-color 0.2s;
   margin-top: 0.6rem;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: #111111;
 }
 
 .btn-submit:disabled {
@@ -254,16 +256,5 @@ input:focus {
 .error-message p {
   width: 100%;
   text-align: left;
-}
-
-@media (hover: hover)
-{
-.toggle-password:hover {
-  color: #111;
-}
-
-.btn-submit:hover:not(:disabled) {
-  background-color: #111111;
-}
 }
 </style>

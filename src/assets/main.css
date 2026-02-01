@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+html, body
+{
+  overflow-x: hidden;
+}
+
 body {
   min-height: 100vh;
   overflow-x: hidden;
@@ -25,4 +30,12 @@ a:hover {
 
 a:focus {
   outline: none;
+}
+
+@media screen and (max-width: 768px)
+{
+html
+{
+  -webkit-text-size-adjust: 100%;
+}
 }
