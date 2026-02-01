@@ -5,6 +5,7 @@ import DashboardHome from "@/components/DashboardHome.vue";
 import AddProductForm from "@/components/AddProductForm.vue";
 import EditProductForm from "@/components/EditProductForm.vue";
 import AddOrderForm from "@/components/AddOrderForm.vue";
+import OrdersHistory from "@/components/OrdersHistory.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
                     path: 'orders/add',
                     name: 'add-order',
                     component: AddOrderForm
+                },
+                {
+                    path: 'orders',
+                    name: 'orders',
+                    component: OrdersHistory
                 },
             ]
         },

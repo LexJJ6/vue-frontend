@@ -129,7 +129,7 @@
       </form>
     </div>
   </div>
-  <RouterLink to="/dashboard/" class="btn btn-primary btn-float">
+  <RouterLink to="/dashboard/orders" class="btn btn-primary btn-float">
     <History />
   </RouterLink>
 </template>
