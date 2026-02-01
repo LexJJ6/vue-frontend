@@ -94,8 +94,8 @@
         <div class="filters-section">
             <button @click="toggleShowFilters">
               <span>Filtrar Lista</span>
-              <ChevronDown v-if="!showFilters" :size="20" :stroke-width="3" />
-              <ChevronUp v-else :size="20" :stroke-width="3" />
+              <ChevronDown v-if="!showFilters" :size="20" :stroke-width="2" />
+              <ChevronUp v-else :size="20" :stroke-width="2" />
             </button>
             <form class="filters-div" v-show="showFilters">
               <div class="input-wrapper">
@@ -174,7 +174,7 @@ section
 
 .filters-section
 {
-    padding: 2rem 3.6rem 0;
+    padding: 2rem 4rem 0;
     width: 100%;
     margin: 0 auto;
     display: flex;
@@ -188,7 +188,7 @@ section
 {
   all: unset;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 1.2rem;
   display: flex;
   flex-direction: row;
