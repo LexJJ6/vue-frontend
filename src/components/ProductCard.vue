@@ -5,7 +5,7 @@
   import { useToast } from 'vue-toastification';
   import { api } from '@/axios';
 
-  defineProps({
+  const props = defineProps({
     product: Object
   });
 
@@ -39,13 +39,13 @@
 
 <template>
     <div class="product-card" :class="{ 'product-deleted': deleted }">
-        <p class="product-name">{{ product.name }}</p>
-        <p>Categoria: {{ product.category }}</p>
-        <p>Preço: {{ formatPrice(product.price) }} €</p>
-        <p>Stock: {{ product.stock }}</p>
+        <p class="product-name">{{ props.product.name }}</p>
+        <p>Categoria: {{ props.product.category }}</p>
+        <p>Preço: {{ formatPrice(props.product.price) }} €</p>
+        <p>Stock: {{ props.product.stock }}</p>
         <div class="actions">
-            <RouterLink :to="`/dashboard/products/edit/${product.id}`" class="btn-edit">Editar</RouterLink>
-            <button @click="deleteProduct(product.id)" class="btn-delete">Eliminar</button>
+            <RouterLink :to="`/dashboard/products/edit/${props.product.id}`" class="btn-edit">Editar</RouterLink>
+            <button @click="deleteProduct(props.product.id)" class="btn-delete">Eliminar</button>
         </div>
     </div>
 </template>

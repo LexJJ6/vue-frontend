@@ -9,12 +9,14 @@
   const toast = useToast();
 
   const products = ref([]);
+  const filteredProducts = ref([]);
 
   onMounted(async () => {
     try
     {
       const response = await api.get('/products');
-      products.value = response.data;
+      products.value = response.data; // para não ter de fazer novos pedidos
+      filteredProducts.value = response.data;
     }
     catch (err)
     {
@@ -30,16 +32,21 @@
       }
     }
   });
+
+  const testeFiltro = () => {
+    filteredProducts.value.splice(0,1);
+  };
 </script>
 
 <template>
     <section>
         <div class="products-grid">
-            <ProductCard v-for="product in products" :key="product.id" :product="product" />
+            <ProductCard v-for="product in filteredProducts" :key="product.id" :product="product" />
         </div>
         <RouterLink to="/dashboard/products/add" class="btn btn-primary btn-float">
             <span class="bi bi-plus">+</span>
         </RouterLink>
+        <button @click="testeFiltro">teste</button>
     </section>
 </template>
 
