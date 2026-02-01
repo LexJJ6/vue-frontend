@@ -1,18 +1,20 @@
 <script setup>
-  import { ref } from 'vue';
+  import { onMounted, ref } from 'vue';
   import { useRouter } from 'vue-router';
   import { useToast } from 'vue-toastification';
+  import { formatPrice } from '@/utils';
   import { api } from '@/axios';
 
   const router = useRouter();
   const toast = useToast();
 
-  const name = ref('');
-  const category = ref('');
-  const price = ref(0);
-  const stock = ref(0);
   const loading = ref(false);
   const error = ref('');
+
+  const selectedProductId = ref(null);
+  const selectedProduct = ref(null);
+
+  const quantity = ref('');
 
   const handleSubmit = async () => {
     error.value = '';
@@ -20,14 +22,15 @@
 
     try
     {
-      await api.post('/products',
+      await api.post('/orders',
       {
-        name: name.value,
-        category: category.value,
-        price: price.value,
-        stock: stock.value,
+        product_id: selectedProduct.value.id, // dado que name não é unique
+        product_name: selectedProduct.value.name,
+        unit_price: selectedProduct.value.price,
+        quantity: quantity.value,
+        subtotal: selectedProduct.value.price * quantity.value,
       });
-      toast.success('Produto criado com sucesso');
+      toast.success('Compra efetuada com sucesso');
       router.push('/dashboard');
     }
     catch (err)
@@ -39,14 +42,41 @@
       }
       else
       {
-        toast.error('Ocorreu um erro ao criar o produto');
-        console.error('Ocorreu um erro ao criar o produto', err);
+        toast.error(err?.response?.data?.message || 'Ocorreu um erro ao efetuar a compra');
+        console.error('Ocorreu um erro ao efetuar a compra', err);
       }
     }
     finally
     {
       loading.value = false;
     }
+  };
+
+  const products = ref([]);
+
+  onMounted(async () => {
+    try
+    {
+      const response = await api.get('/products');
+      products.value = response.data;
+    }
+    catch (err)
+    {
+      if(err.status === 401)
+      {
+        toast.error('A sua sessão expirou');
+        router.push('/');
+      }
+      else
+      {
+        toast.error('Ocorreu um erro ao obter os produtos');
+        console.error('Ocorreu um erro ao obter os produtos', err);
+      }
+    }
+  });
+
+  const getProduct = () => {
+    selectedProduct.value = products.value.find(p => p.id === selectedProductId.value);
   };
 </script>
 
@@ -58,52 +88,38 @@
       <form @submit.prevent="handleSubmit" class="login-form">
         <div class="form-groups">
           <div class="form-group">
-            <label for="name">Nome</label>
-            <input
-              type="text"
-              id="name"
-              v-model="name"
-              required
-              placeholder="Insira o nome do produto"
-            />
+            <label for="product-name">Produto</label>
+            <select @change="getProduct" v-model="selectedProductId" id="product-name" name="product-name">
+              <option
+                v-for="product in products"
+                :key="product.id"
+                :value="product.id"
+              >
+                {{ product.name }}
+              </option>
+            </select>
           </div>
           <div class="form-group">
-            <label for="category">Categoria</label>
-            <input
-              type="text"
-              id="category"
-              v-model="category"
-              required
-              placeholder="Insira a categoria do produto"
-            />
-          </div>
-          <div class="form-group">
-            <label for="price">Preço (em cêntimos)</label>
+            <label for="quantity">Quantidade</label>
             <input
               type="number"
-              id="price"
-              v-model="price"
+              id="quantity"
+              v-model="quantity"
               required
-              placeholder="Insira o preço do produto"
+              placeholder="Insira a quantidade"
               min="0"
             />
           </div>
-          <div class="form-group">
-            <label for="stock">Stock</label>
-            <input
-              type="number"
-              id="stock"
-              v-model="stock"
-              required
-              placeholder="Insira a quantidade em estoque"
-              min="0"
-            />
+          <div class="product-info">
+          <p>Preço Unitário: {{ selectedProduct?.price ? `${formatPrice(selectedProduct?.price)} €` : '' }}</p>
+          <p>Stock: {{ selectedProduct?.stock ? selectedProduct?.stock : '' }}</p>
+          <p>Subtotal: {{ selectedProduct?.price ? `${formatPrice(selectedProduct?.price * quantity)} €` : '' }}</p>
           </div>
         </div>
 
         <button type="submit" :disabled="loading" class="btn-submit">
           <span v-if="loading" class="spinner"></span>
-          <span v-else>Criar</span>
+          <span v-else>Comprar</span>
         </button>
 
         <div class="error-message" :class="{ 'not-visible': !error }">
@@ -176,20 +192,33 @@ section
   flex-direction: column;
 }
 
+.product-info
+{
+  padding: 1rem 0 0;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+p,
 label {
   margin-bottom: 0.5rem;
   font-weight: 500;
   color: #333333;
 }
 
+select,
 input {
   padding: 0.75rem 1rem;
   border-radius: 6px;
   border: 1px solid #cccccc;
   font-size: 1rem;
+  background-color: white;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+select:focus,
 input:focus {
   outline: none;
   border-color: #555555;
@@ -256,5 +285,20 @@ input:focus {
 .error-message p {
   width: 100%;
   text-align: left;
+}
+
+@media (hover: hover)
+{
+.btn-submit:hover:not(:disabled) {
+  background-color: #111111;
+}
+}
+
+@media screen and (max-width: 768px)
+{
+.form-page {
+  min-height: calc(100vh - 60px);
+  margin-top: 60px;
+}
 }
 </style>

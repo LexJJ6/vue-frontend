@@ -44,12 +44,10 @@
   const showSlidingMenu = ref(false);
 
   const openSlidingMenu = () => {
-    console.log("sim")
     showSlidingMenu.value = true;
   };
 
   const closeSlidingMenu = () => {
-    console.log("nao")
     showSlidingMenu.value = false;
   };
 </script>

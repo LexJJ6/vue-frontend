@@ -125,7 +125,7 @@
               id="stock"
               v-model="stock"
               required
-              placeholder="Insira a quantidade em estoque"
+              placeholder="Insira a quantidade em stock"
               min="0"
             />
           </div>
