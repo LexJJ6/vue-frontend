@@ -118,7 +118,8 @@
 section
 {
     width: 100vw;
-    min-height: 100vh;
+    min-height: calc(100vh - 80px);
+    margin-top: 80px;
     padding-top: 5rem;
     background-color: rgb(240, 240, 240);
 }
@@ -210,10 +211,6 @@ input:focus {
   margin-top: 0.6rem;
 }
 
-.btn-submit:hover:not(:disabled) {
-  background-color: #111111;
-}
-
 .btn-submit:disabled {
   background-color: #aaaaaa;
   cursor: not-allowed;
@@ -256,5 +253,20 @@ input:focus {
 .error-message p {
   width: 100%;
   text-align: left;
+}
+
+@media (hover: hover)
+{
+.btn-submit:hover:not(:disabled) {
+  background-color: #111111;
+}
+}
+
+@media screen and (max-width: 768px)
+{
+.form-page {
+  min-height: calc(100vh - 60px);
+  margin-top: 60px;
+}
 }
 </style>

@@ -100,7 +100,7 @@ header
 nav
 {
   width: 100%;
-  height: 60px;
+  height: 80px;
   position: relative;
   display: flex;
   flex-direction: row;

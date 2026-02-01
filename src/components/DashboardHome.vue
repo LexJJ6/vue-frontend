@@ -168,7 +168,7 @@ section
 {
     width: 100vw;
     min-height: 100vh;
-    padding-top: 5rem;
+    padding-top: 80px;
     background-color: rgb(240, 240, 240);
 }
 
