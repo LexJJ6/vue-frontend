@@ -140,12 +140,6 @@ nav
   border-bottom: 1px solid transparent;
 }
 
-.header-actions a:hover,
-.header-actions button:hover
-{
-  border-bottom: 1px solid black;
-}
-
 .display-none
 {
   display: none;
@@ -157,6 +151,15 @@ nav
   color: black;
   font-size: 1rem;
   cursor: pointer;
+}
+
+@media (hover: hover)
+{
+.header-actions a:hover,
+.header-actions button:hover
+{
+  border-bottom: 1px solid black;
+}
 }
 
 @media screen and (max-width: 768px)
