@@ -99,11 +99,22 @@ button
   font-size: 1rem;
 }
 
+@media (hover: hover)
+{
 .btn-edit:hover {
   background-color: rgb(53, 160, 69);
 }
 
 .btn-delete:hover {
   background-color: rgb(220, 53, 69);
+}
+}
+
+@media screen and (max-width: 768px)
+{
+.product-card
+{
+    width: 100%;
+}
 }
 </style>

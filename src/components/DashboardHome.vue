@@ -221,11 +221,6 @@ section
   align-self: last baseline;
 }
 
-.filters-div button:hover
-{
-  background-color: black;
-}
-
 .input-wrapper
 {
   display: flex;
@@ -268,13 +263,41 @@ section
   text-decoration: none;
 }
 
+.btn-float span {
+  color: white;
+  font-weight: bold;
+}
+
+@media (hover: hover)
+{
+.filters-div button:hover
+{
+  background-color: black;
+}
+
 .btn-float:hover
 {
     background-color: black;
 }
+}
 
-.btn-float span {
-  color: white;
-  font-weight: bold;
+@media screen and (max-width: 768px)
+{
+.filters-section
+{
+    padding: 0.8rem 1.6rem 0;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 0.8rem;
+}
+
+.input-wrapper
+{
+  width: 100%;
+}
 }
 </style>
