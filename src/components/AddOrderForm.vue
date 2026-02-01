@@ -4,6 +4,7 @@
   import { useToast } from 'vue-toastification';
   import { formatPrice } from '@/utils';
   import { api } from '@/axios';
+  import { History } from 'lucide-vue-next';
 
   const router = useRouter();
   const toast = useToast();
@@ -128,6 +129,9 @@
       </form>
     </div>
   </div>
+  <RouterLink to="/dashboard/" class="btn btn-primary btn-float">
+    <History />
+  </RouterLink>
 </template>
 
 <style scoped>
@@ -287,10 +291,38 @@ input:focus {
   text-align: left;
 }
 
+.btn-float {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 20;
+  background-color: #333333;
+  color: white;
+  text-decoration: none;
+}
+
+.btn-float span {
+  color: white;
+  font-weight: bold;
+}
+
 @media (hover: hover)
 {
 .btn-submit:hover:not(:disabled) {
   background-color: #111111;
+}
+
+.btn-float:hover
+{
+    background-color: black;
 }
 }
 

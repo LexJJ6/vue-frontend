@@ -158,7 +158,7 @@
             <ProductCard v-for="product in filteredProducts" :key="product.id" :product="product" />
         </div>
         <RouterLink to="/dashboard/products/add" class="btn btn-primary btn-float">
-            <span class="bi bi-plus">+</span>
+            <span>+</span>
         </RouterLink>
     </section>
 </template>
